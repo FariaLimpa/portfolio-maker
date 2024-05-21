@@ -6,8 +6,7 @@ import GlowCard from "../../helper/glow-card";
 import lottieFile from "/public/lottie/study.json";
 import { fetchData } from "@/utils/api/fetchData";
 
-const Education = async () => {
-  const data = await fetchData();
+const Education = async ({ data }) => {
   const educations = data.data.educationData;
 
   return (

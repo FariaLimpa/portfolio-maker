@@ -7,8 +7,7 @@ import GlowCard from "../../helper/glow-card";
 import experience from "/public/lottie/code.json";
 import { fetchData } from "@/utils/api/fetchData";
 
-const Experience = async () => {
-  const data = await fetchData();
+const Experience = async ({ data }) => {
   const experiences = data.data.experienceData;
   return (
     <div
@@ -43,7 +42,7 @@ const Experience = async () => {
 
           <div>
             <div className="flex flex-col gap-6">
-              {experiences.map((experience) => (
+              {experiences?.map((experience) => (
                 <GlowCard
                   key={experience.id}
                   identifier={`experience-${experience.id}`}

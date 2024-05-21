@@ -5,8 +5,7 @@ import Image from "next/image";
 import Marquee from "react-fast-marquee";
 import { fetchData } from "@/utils/api/fetchData";
 
-const Skills = async () => {
-  const data = await fetchData();
+const Skills = async ({ data }) => {
   const skillsData = data.data.skillData;
   console.log(skillsData);
   return (

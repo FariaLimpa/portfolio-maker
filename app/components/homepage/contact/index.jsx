@@ -9,8 +9,7 @@ import ContactWithCaptcha from "./contact-with-captcha";
 import ContactWithoutCaptcha from "./contact-without-captcha";
 import { fetchData } from "@/utils/api/fetchData";
 
-const ContactSection = async () => {
-  const data = await fetchData();
+const ContactSection = async ({ data }) => {
   const personalData = data.data.personalData;
   return (
     <div id="contact" className="my-12 lg:my-16 relative mt-24 text-white">

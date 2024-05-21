@@ -1,50 +1,96 @@
 "use client";
+import { postData } from "@/utils/api/fetchData";
 import React, { useState } from "react";
 
 const PortfolioForm = () => {
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     contractData: {
-      email: "",
-      phone: "",
-      address: "",
-      github: "",
-      facebook: "",
-      linkedin: "",
-      twitter: "",
-      stackOverflow: "",
-      devUsername: "",
+      email: "john.doe@example.com",
+      phone: "+1 123-456-7890",
+      address: "123 Main St, Anytown USA",
+      github: "https://github.com/johndoe",
+      facebook: "https://www.facebook.com/johndoe",
+      linkedin: "https://www.linkedin.com/in/johndoe",
+      twitter: "https://twitter.com/johndoe",
+      stackOverflow: "https://stackoverflow.com/users/1234567/johndoe",
+      devUsername: "johndoe",
     },
-    educationData: [{ title: "", duration: "", institution: "" }],
-    experienceData: [{ title: "", company: "", duration: "" }],
+    educationData: [
+      {
+        title: "Bachelor of Science in Computer Science",
+        duration: "2016 - 2020",
+        institution: "XYZ University",
+      },
+      {
+        title: "Master of Science in Artificial Intelligence",
+        duration: "2020 - 2022",
+        institution: "ABC University",
+      },
+    ],
+    experienceData: [
+      {
+        title: "Software Engineer",
+        company: "Acme Inc.",
+        duration: "Jan 2023 - Present",
+      },
+      {
+        title: "Intern",
+        company: "TechCo",
+        duration: "May 2022 - Aug 2022",
+      },
+    ],
     personalData: {
-      name: "",
-      profile: "",
-      designation: "",
-      description: "",
-      email: "",
-      phone: "",
-      address: "",
-      github: "",
-      facebook: "",
-      linkedIn: "",
-      twitter: "",
-      stackOverflow: "",
-      leetcode: "",
-      devUsername: "",
-      resume: "",
+      name: "John Doe",
+      profile: "https://johndoe.com/profile.jpg",
+      designation: "Full-Stack Developer",
+      description:
+        "I am a passionate full-stack developer with expertise in React, Node.js, and MongoDB.",
+      email: "john.doe@example.com",
+      phone: "+1 123-456-7890",
+      address: "123 Main St, Anytown USA",
+      github: "https://github.com/johndoe",
+      facebook: "https://www.facebook.com/johndoe",
+      linkedIn: "https://www.linkedin.com/in/johndoe",
+      twitter: "https://twitter.com/johndoe",
+      stackOverflow: "https://stackoverflow.com/users/1234567/johndoe",
+      leetcode: "https://leetcode.com/johndoe",
+      devUsername: "johndoe",
+      resume: "https://johndoe.com/resume.pdf",
     },
     projectData: [
       {
-        name: "",
-        description: "",
-        tools: [""],
-        role: "",
-        code: "",
-        demo: "",
-        image: "",
+        name: "E-commerce Website",
+        description:
+          "A full-stack e-commerce website built with React, Node.js, and MongoDB.",
+        tools: ["React", "Node.js", "MongoDB", "Express", "Tailwind CSS"],
+        role: "Full-Stack Developer",
+        code: "https://github.com/johndoe/ecommerce-website",
+        demo: "https://ecommerce-website.vercel.app",
+        image: "https://johndoe.com/ecommerce-website.png",
+      },
+      {
+        name: "Weather App",
+        description:
+          "A simple weather application built with React and OpenWeatherMap API.",
+        tools: ["React", "OpenWeatherMap API", "Axios"],
+        role: "Front-End Developer",
+        code: "https://github.com/johndoe/weather-app",
+        demo: "https://weather-app.vercel.app",
+        image: "https://johndoe.com/weather-app.png",
       },
     ],
-    skillData: [""],
+    skillData: [
+      "React",
+      "Node.js",
+      "MongoDB",
+      "Express",
+      "Tailwind CSS",
+      "Git",
+      "JavaScript",
+      "HTML",
+      "CSS",
+    ],
   });
 
   const handleChange = (e, section, index, field) => {
@@ -81,9 +127,16 @@ const PortfolioForm = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    setLoading(true);
+    const post = await postData("http://localhost:5000/portfolio", formData);
+    if (post.success) {
+      alert("Data submitted successfully");
+    } else {
+      alert("Failed to submit data");
+    }
+    setLoading(false);
   };
 
   return (
@@ -776,7 +829,7 @@ const PortfolioForm = () => {
         type="submit"
         className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
       >
-        Submit
+        {loading ? "Loading..." : "Submit"}
       </button>
     </form>
   );

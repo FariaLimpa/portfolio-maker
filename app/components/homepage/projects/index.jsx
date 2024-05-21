@@ -1,8 +1,7 @@
 import ProjectCard from "./project-card";
 import { fetchData } from "@/utils/api/fetchData";
 
-const Projects = async () => {
-  const data = await fetchData();
+const Projects = async ({ data }) => {
   const projectsData = data.data.projectData;
 
   return (
@@ -21,7 +20,7 @@ const Projects = async () => {
         <div className="flex flex-col gap-6">
           {projectsData.slice(0, 4).map((project, index) => (
             <div
-            id={`project-${index}`}
+              id={`project-${index}`}
               key={index}
               className="sticky-card w-full mx-auto max-w-2xl sticky"
             >
