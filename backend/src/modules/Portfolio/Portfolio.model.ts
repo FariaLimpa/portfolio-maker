@@ -66,6 +66,7 @@ const PortfolioSchema = new Schema<TPortfolioData>({
   experienceData: { type: [experienceDataSchema] },
   personalData: { type: personalDataSchema, required: true },
   projectData: { type: [projectDataSchema], required: true },
+  skillData: { type: [String], required: true },
 })
 
 export const Portfolio = model<TPortfolioData>('Portfolio', PortfolioSchema)

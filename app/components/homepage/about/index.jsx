@@ -1,10 +1,12 @@
-// @flow strict
-
-import { personalData } from "@/utils/data/personal-data";
 import Image from "next/image";
+import React from "react";
 
-
-function AboutSection() {
+const AboutSection = async () => {
+  const data = await fetch(
+    "http://localhost:5000/portfolio/phone/987-654-3210"
+  );
+  const response = await data.json();
+  const personalData = response.data.personalData;
   return (
     <div id="about" className="my-12 lg:my-16 relative">
       <div className="hidden lg:flex flex-col items-center absolute top-16 -right-8">
@@ -24,7 +26,9 @@ function AboutSection() {
         </div>
         <div className="flex justify-center order-1 lg:order-2">
           <Image
-            src={personalData.profile}
+            src={
+              "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?cs=srgb&dl=pexels-simon-robben-55958-614810.jpg&fm=jpg"
+            }
             width={280}
             height={280}
             alt="Abu Said"

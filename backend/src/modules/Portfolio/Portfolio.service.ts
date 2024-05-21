@@ -16,7 +16,7 @@ const getPortfolioById = async (id: string) => {
 }
 
 const getPortfolioByPhone = async (phone: string) => {
-  const result = await Portfolio.findOne({ contractData: { phone } })
+  const result = await Portfolio.findOne({ 'personalData.phone': phone })
   return result
 }
 
