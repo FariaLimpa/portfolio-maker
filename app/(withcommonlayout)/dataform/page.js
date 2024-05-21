@@ -1,7 +1,7 @@
 import React from "react";
 
-const page = () => {
-  return <div>page</div>;
+const DataForm = () => {
+  return <div>DataForm</div>;
 };
 
-export default page;
+export default DataForm;
