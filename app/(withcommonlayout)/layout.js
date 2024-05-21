@@ -3,6 +3,8 @@ import { GoogleTagManager } from "@next/third-parties/google";
 import { Inter } from "next/font/google";
 import NavbarHome from "../components/home/NavbarHome";
 import FooterHome from "../components/home/FooterHome";
+import "../css/globals.scss";
+import "../css/globals.scss";
 
 const inter = Inter({ subsets: ["latin"] });
 
