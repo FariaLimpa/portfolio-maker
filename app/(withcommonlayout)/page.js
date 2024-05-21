@@ -1,5 +1,5 @@
 import Body1Home from "../components/home/Body1Home";
-import BodyHome from "../components/home/Body1Home";
+
 import Body2Home from "../components/home/Body2Home";
 import HeaderHome from "../components/home/HeaderHome";
 
