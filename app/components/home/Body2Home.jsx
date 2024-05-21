@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const Body2Home = () => {
-  return (
-    <div>Body2Home</div>
-  )
-}
+  return <div></div>;
+};
 
-export default Body2Home
+export default Body2Home;
