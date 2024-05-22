@@ -1,19 +1,28 @@
 import React from "react";
 import { FlipWords } from "../ui/flip-words";
 import { PinContainer } from "../ui/3d-pin";
+import Link from "next/link";
 
 const HeaderHome = () => {
   return (
     <div className="grid grid-cols-2 ">
       <div>
         <div className="h-[40rem] flex justify-center items-center px-4">
-          <div className="text-4xl mx-auto font-normal text-neutral-600 dark:text-neutral-400">
+          <div className="text-4xl mx-auto font-normal text-white dark:text-neutral-400">
             Create{" "}
             <FlipWords
+              className={"text-[#0e1f30] font-bold"}
+              interval={2000}
               words={["Awesome", "Cool", "Amazing", "Incredible", "Fantastic"]}
             />{" "}
             <br />
             portfolios with PortfolioMaster
+            <br />
+            <div className="py-2 mt-4 text-xl text-white bg-blue-700 rounded-lg hover:bg-blue-800">
+              <Link href="/dataform" className="ml-2 py-5 mt-4 text-xl ">
+                Make a portfolio now
+              </Link>
+            </div>
           </div>
         </div>
       </div>
