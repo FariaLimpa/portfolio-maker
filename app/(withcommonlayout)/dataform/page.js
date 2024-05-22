@@ -1,9 +1,12 @@
 "use client";
 import { postData } from "@/utils/api/fetchData";
+import Link from "next/link";
 import React, { useState } from "react";
 
 const PortfolioForm = () => {
   const [loading, setLoading] = useState(false);
+  const [id, setId] = useState(null); // [1]
+  const [done, setDone] = useState(false);
   const [formData, setFormData] = useState({
     contractData: {
       email: "john.doe@example.com",
@@ -92,6 +95,36 @@ const PortfolioForm = () => {
       "CSS",
     ],
   });
+  function convertContactData(contractData) {
+    return `export const contactsData = {
+    email: '${contractData.email}',
+    phone: '${contractData.phone}',
+    address: '${contractData.address}',
+    github: '${contractData.github}',
+    facebook: '${contractData.facebook}',
+    linkedIn: '${contractData.linkedin}', // Note the change from 'linkedin' to 'linkedIn'
+    twitter: '${contractData.twitter}',
+    stackOverflow: '${contractData.stackOverflow}',
+    devUsername: '${contractData.devUsername}'
+  }`;
+  }
+
+  const handleDownload = async () => {
+    const contactData = convertContactData(formData.contractData);
+    const fetch = await fetch(`http://localhost:3000/update-file-contact`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ contractData: contactData }),
+    });
+    const response = await fetch.json();
+    if (response.success) {
+      alert("File updated successfully");
+    } else {
+      alert("Failed to update file");
+    }
+  };
 
   const handleChange = (e, section, index, field) => {
     const value = e.target.value;
@@ -131,8 +164,11 @@ const PortfolioForm = () => {
     e.preventDefault();
     setLoading(true);
     const post = await postData("http://localhost:5000/portfolio", formData);
+
     if (post.success) {
       alert("Data submitted successfully");
+      setId(post.data._id); // [2]
+      setDone(true);
     } else {
       alert("Failed to submit data");
     }
@@ -824,13 +860,43 @@ const PortfolioForm = () => {
       >
         Add Skill
       </button>
-
-      <button
-        type="submit"
-        className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
-      >
-        {loading ? "Loading..." : "Submit"}
-      </button>
+      <br />
+      <div className="gap-20 flex justify-start">
+        <button
+          type="submit"
+          className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
+        >
+          {loading ? "Loading..." : "Submit"}
+        </button>
+        <div>
+          {
+            // [3]
+            done && (
+              <Link
+                className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
+                href={`/portfoliotemplate/${id}`}
+              >
+                {" "}
+                View Portfolio
+              </Link>
+            )
+          }
+        </div>
+        <div>
+          {
+            // [4]
+            done && (
+              <button
+                onClick={handleDownload}
+                className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
+              >
+                {" "}
+                Download Code
+              </button>
+            )
+          }
+        </div>
+      </div>
     </form>
   );
 };

@@ -7,6 +7,8 @@ import Experience from "../../components/homepage/experience";
 import HeroSection from "../../components/homepage/hero-section";
 import Projects from "../../components/homepage/projects";
 import Skills from "../../components/homepage/skills";
+import Navbar from "@/app/components/navbar";
+import Footer from "@/app/components/footer";
 
 async function getData() {
   const res = await fetch(
@@ -30,6 +32,7 @@ const PortfolioMakerPage = async ({ params }) => {
 
   return (
     <div>
+      <Navbar data={data} />
       <HeroSection data={data} />
       <AboutSection data={data} />
       <Experience data={data} />
@@ -38,6 +41,7 @@ const PortfolioMakerPage = async ({ params }) => {
       <Education data={data} />
       {/* <Blog blogs={blogs} /> */}
       <ContactSection data={data} />
+      <Footer />
     </div>
   );
 };
