@@ -1,10 +1,10 @@
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import "../css/globals.scss";
-import "../css/globals.scss";
-import Navbar from "../components/navbar";
-import Footer from "../components/footer";
+import "../../css/globals.scss";
+import "../../css/globals.scss";
+import Navbar from "../../components/navbar";
+import Footer from "../../components/footer";
 
 export const metadata = {
   title: "Portfolio of Abu Said - Software Developer",
