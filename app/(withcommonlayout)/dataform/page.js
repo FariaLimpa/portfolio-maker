@@ -8,6 +8,87 @@ const PortfolioForm = () => {
   const [loading, setLoading] = useState(false);
   const [id, setId] = useState(null); // [1]
   const [done, setDone] = useState(false);
+  const availableSkills = [
+    "HTML",
+    "CSS",
+    "JS",
+    "React",
+    "Next JS",
+    "Nuxt JS",
+    "Node JS",
+    "Vue",
+    "Angular",
+    "Docker",
+    "Photoshop",
+    "Illustrator",
+    "Svelte",
+    "GCP",
+    "Azure",
+    "Fastify",
+    "Haxe",
+    "Ionic",
+    "Markdown",
+    "Microsoft Office",
+    "Picsart",
+    "Sketch",
+    "Unity",
+    "WolframAlpha",
+    "Adobe XD",
+    "After Effects",
+    "Bootstrap",
+    "Bulma",
+    "CapacitorJs",
+    "Coffeescript",
+    "MemSQL",
+    "C",
+    "C++",
+    "C#",
+    "Python",
+    "Java",
+    "Julia",
+    "Matlab",
+    "Swift",
+    "Ruby",
+    "Kotlin",
+    "Go",
+    "PHP",
+    "Flutter",
+    "Dart",
+    "Typescript",
+    "Swift",
+    "Git",
+    "Figma",
+    "Canva",
+    "Ubuntu",
+    "Bootstrap",
+    "MongoDB",
+    "Tailwind",
+    "ViteJS",
+    "VuetifyJS",
+    "MySQL",
+    "PostgreSQL",
+    "AWS",
+    "Firebase",
+    "Blender",
+    "Premiere Pro",
+    "Adobe Audition",
+    "Deno",
+    "Django",
+    "Gimp",
+    "Graphql",
+    "Lightroom",
+    "MaterialUI",
+    "Nginx",
+    "Numpy",
+    "OpenCV",
+    "Pytorch",
+    "Selenium",
+    "Strapi",
+    "Tensorflow",
+    "Webex",
+    "Wordpress",
+  ];
+
   const [formData, setFormData] = useState({
     contractData: {
       email: "john.doe@example.com",
@@ -71,7 +152,8 @@ const PortfolioForm = () => {
         role: "Full-Stack Developer",
         code: "https://github.com/johndoe/ecommerce-website",
         demo: "https://ecommerce-website.vercel.app",
-        image: "https://johndoe.com/ecommerce-website.png",
+        image:
+          "https://i0.wp.com/www.projectsmind.com/wp-content/uploads/2021/05/What-is-project.png?fit=1200%2C675&ssl=1",
       },
       {
         name: "Weather App",
@@ -81,54 +163,113 @@ const PortfolioForm = () => {
         role: "Front-End Developer",
         code: "https://github.com/johndoe/weather-app",
         demo: "https://weather-app.vercel.app",
-        image: "https://johndoe.com/weather-app.png",
+        image:
+          "https://9to5mac.com/wp-content/uploads/sites/6/2023/04/Apple-Weather-app.jpg?quality=82&strip=all&w=1024",
       },
     ],
-    skillData: [
-      "React",
-      "Node.js",
-      "MongoDB",
-      "Express",
-      "Tailwind CSS",
-      "Git",
-      "JavaScript",
-      "HTML",
-      "CSS",
-    ],
+    skillData: ["React"],
   });
-  function convertContactData(personalData) {
-    return `export const contactsData = {
-    email: '${personalData.email}',
-    phone: '${personalData.phone}',
-    address: '${personalData.address}',
-    github: '${personalData.github}',
-    facebook: '${personalData.facebook}',
-    linkedIn: '${personalData.linkedIn}', // Note the change from 'linkedin' to 'linkedIn'
-    twitter: '${personalData.twitter}',
-    stackOverflow: '${personalData.stackOverflow}',
-    devUsername: '${personalData.devUsername}'
-  }`;
-  }
+  // function convertContactData(personalData) {
+  //   return `export const contactsData = {
+  //   email: '${personalData.email}',
+  //   phone: '${personalData.phone}',
+  //   address: '${personalData.address}',
+  //   github: '${personalData.github}',
+  //   facebook: '${personalData.facebook}',
+  //   linkedIn: '${personalData.linkedIn}', // Note the change from 'linkedin' to 'linkedIn'
+  //   twitter: '${personalData.twitter}',
+  //   stackOverflow: '${personalData.stackOverflow}',
+  //   devUsername: '${personalData.devUsername}'
+  // }`;
+  // }
 
   const handleDownload = async () => {
-    const personalData = convertContactData(formData.personalData);
-    const jsonData = JSON.stringify({ content: personalData }, null, 4);
-    console.log(jsonData);
-    const response = await fetch(`http://localhost:3003/update-file-contact`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: jsonData,
-    });
-    if (response.status === 200) {
-      alert("File updated successfully");
-      window.open(
-        "https://github.com/kolinabir/developer-portfolio-main/archive/refs/heads/main.zip",
-        "_blank"
-      );
+    const personalData = formData.personalData;
+
+    const updateContact = await fetch(
+      `http://localhost:3003/update-file-contact`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ personalData }),
+      }
+    );
+    if (updateContact.status === 200) {
+      alert("Contact updated successfully");
+      // window.open(
+      //   "https://github.com/kolinabir/developer-portfolio-main/archive/refs/heads/main.zip",
+      //   "_blank"
+      // );
     } else {
       alert("Failed to update file");
+    }
+    const updateEducation = await fetch(
+      `http://localhost:3003/update-file-education`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ educationData: formData.educationData }),
+      }
+    );
+    if (updateEducation.status === 200) {
+      alert("Education file updated successfully");
+    }
+    const updateExperience = await fetch(
+      `http://localhost:3003/update-file-experience`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ experienceData: formData.experienceData }),
+      }
+    );
+    if (updateExperience.status === 200) {
+      alert("Experience file updated successfully");
+    }
+    const updatePersonal = await fetch(
+      `http://localhost:3003/update-file-personal`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ personalData: formData.personalData }),
+      }
+    );
+    if (updatePersonal.status === 200) {
+      alert("Personal file updated successfully");
+    }
+    const updateProjects = await fetch(
+      `http://localhost:3003/update-file-projects`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ projectData: formData.projectData }),
+      }
+    );
+    if (updateProjects.status === 200) {
+      alert("Projects file updated successfully");
+    }
+    const updateSkills = await fetch(
+      `http://localhost:3003/update-file-skills`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ skillData: formData.skillData }),
+      }
+    );
+
+    if (updateSkills.status === 200) {
+      alert("Skills file updated successfully");
     }
   };
 
@@ -140,9 +281,9 @@ const PortfolioForm = () => {
         : { ...prevState[section] };
 
       if (Array.isArray(prevState[section])) {
-        updatedSection[index][field] = value;
+        updatedSection[index] = value; // Update value directly at the index
       } else {
-        updatedSection[field] = value;
+        updatedSection[field] = value; // This part seems fine since it's not within an array
       }
 
       return { ...prevState, [section]: updatedSection };
@@ -880,14 +1021,20 @@ const PortfolioForm = () => {
             >
               Skill *
             </label>
-            <input
+            <select
               id={`skill-${index}`}
-              type="text"
               value={skill}
               onChange={(e) => handleChange(e, "skillData", index, "")}
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500"
               required
-            />
+            >
+              <option value="">Select a skill</option>
+              {availableSkills.map((availableSkill, i) => (
+                <option key={i} value={availableSkill}>
+                  {availableSkill}
+                </option>
+              ))}
+            </select>
             <button
               type="button"
               onClick={() => handleRemoveItem("skillData", index)}
@@ -897,6 +1044,7 @@ const PortfolioForm = () => {
             </button>
           </div>
         ))}
+
         <button
           type="button"
           onClick={() => handleAddItem("skillData")}
@@ -919,6 +1067,8 @@ const PortfolioForm = () => {
                 <Link
                   className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
                   href={`/portfoliotemplate/${id}`}
+                  // open new tab
+                  target="_blank"
                 >
                   {" "}
                   View Portfolio
