@@ -3,11 +3,21 @@ import { postData } from "@/utils/api/fetchData";
 import { redirect } from "next/dist/server/api-utils";
 import Link from "next/link";
 import React, { useState } from "react";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
 const PortfolioForm = () => {
   const [loading, setLoading] = useState(false);
   const [id, setId] = useState(null); // [1]
   const [done, setDone] = useState(false);
+  const [contactUpdated, setContactUpdated] = useState(false); // [3]
+  const [educationUpdated, setEducationUpdated] = useState(false);
+  const [experienceUpdated, setExperienceUpdated] = useState(false);
+  const [personalUpdated, setPersonalUpdated] = useState(false);
+  const [projectsUpdated, setProjectsUpdated] = useState(false);
+  const [skillsUpdated, setSkillsUpdated] = useState(false);
+  const [loadingForUpdate, setLoadingForUpdate] = useState(false); // [5]
+
   const availableSkills = [
     "HTML",
     "CSS",
@@ -185,9 +195,9 @@ const PortfolioForm = () => {
 
   const handleDownload = async () => {
     const personalData = formData.personalData;
-
+    setLoadingForUpdate(true);
     const updateContact = await fetch(
-      `http://localhost:3003/update-file-contact`,
+      `https://git-api-portfoliomaker.vercel.app/update-file-contact`,
       {
         method: "POST",
         headers: {
@@ -197,16 +207,14 @@ const PortfolioForm = () => {
       }
     );
     if (updateContact.status === 200) {
-      alert("Contact updated successfully");
-      // window.open(
-      //   "https://github.com/kolinabir/developer-portfolio-main/archive/refs/heads/main.zip",
-      //   "_blank"
-      // );
+      setContactUpdated(true); // [4]
+      toast.success("Contact data updated successfully");
     } else {
-      alert("Failed to update file");
+      setLoadingForUpdate(false);
+      toast.error("Failed to update contact data");
     }
     const updateEducation = await fetch(
-      `http://localhost:3003/update-file-education`,
+      `https://git-api-portfoliomaker.vercel.app/update-file-education`,
       {
         method: "POST",
         headers: {
@@ -216,10 +224,11 @@ const PortfolioForm = () => {
       }
     );
     if (updateEducation.status === 200) {
-      alert("Education file updated successfully");
+      setEducationUpdated(true);
+      toast.success("Education data updated successfully");
     }
     const updateExperience = await fetch(
-      `http://localhost:3003/update-file-experience`,
+      `https://git-api-portfoliomaker.vercel.app/update-file-experience`,
       {
         method: "POST",
         headers: {
@@ -229,10 +238,11 @@ const PortfolioForm = () => {
       }
     );
     if (updateExperience.status === 200) {
-      alert("Experience file updated successfully");
+      setExperienceUpdated(true);
+      toast.success("Experience data updated successfully");
     }
     const updatePersonal = await fetch(
-      `http://localhost:3003/update-file-personal`,
+      `https://git-api-portfoliomaker.vercel.app/update-file-personal`,
       {
         method: "POST",
         headers: {
@@ -242,10 +252,11 @@ const PortfolioForm = () => {
       }
     );
     if (updatePersonal.status === 200) {
-      alert("Personal file updated successfully");
+      setPersonalUpdated(true);
+      toast.success("Personal data updated successfully");
     }
     const updateProjects = await fetch(
-      `http://localhost:3003/update-file-projects`,
+      `https://git-api-portfoliomaker.vercel.app/update-file-projects`,
       {
         method: "POST",
         headers: {
@@ -255,10 +266,11 @@ const PortfolioForm = () => {
       }
     );
     if (updateProjects.status === 200) {
-      alert("Projects file updated successfully");
+      setProjectsUpdated(true);
+      toast.success("Projects data updated successfully");
     }
     const updateSkills = await fetch(
-      `http://localhost:3003/update-file-skills`,
+      `https://git-api-portfoliomaker.vercel.app/update-file-skills`,
       {
         method: "POST",
         headers: {
@@ -269,7 +281,32 @@ const PortfolioForm = () => {
     );
 
     if (updateSkills.status === 200) {
-      alert("Skills file updated successfully");
+      setSkillsUpdated(true);
+      toast.success("Skills data updated successfully");
+    }
+    if (
+      contactUpdated &&
+      educationUpdated &&
+      experienceUpdated &&
+      personalUpdated &&
+      projectsUpdated &&
+      skillsUpdated
+    ) {
+      setLoadingForUpdate(false);
+      window.open(
+        "https://github.com/kolinabir/developer-portfolio-main/archive/refs/heads/main.zip"
+      );
+    } else {
+      setLoadingForUpdate(false);
+      toast.error("Failed to update data");
+      console.log({
+        contactUpdated,
+        educationUpdated,
+        experienceUpdated,
+        personalUpdated,
+        projectsUpdated,
+        skillsUpdated,
+      });
     }
   };
 
@@ -310,14 +347,17 @@ const PortfolioForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const post = await postData("http://localhost:5000/portfolio", formData);
+    const post = await postData(
+      "https://portfoliomaker-backend.vercel.app/portfolio",
+      formData
+    );
 
     if (post.success) {
-      alert("Data submitted successfully");
+      toast.success("Data submitted successfully");
       setId(post.data._id); // [2]
       setDone(true);
     } else {
-      alert("Failed to submit data");
+      toast.error("Failed to submit data");
     }
     setLoading(false);
   };
@@ -1053,7 +1093,7 @@ const PortfolioForm = () => {
           Add Skill
         </button>
         <br />
-        <div className="gap-20 flex justify-start">
+        <div className="gap-20 flex justify-center">
           <button
             type="submit"
             className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
@@ -1064,15 +1104,16 @@ const PortfolioForm = () => {
             {
               // [3]
               done && (
-                <Link
-                  className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
-                  href={`/portfoliotemplate/${id}`}
-                  // open new tab
-                  target="_blank"
-                >
-                  {" "}
-                  View Portfolio
-                </Link>
+                <button className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
+                  <Link
+                    href={`/portfoliotemplate/${id}`}
+                    // open new tab
+                    target="_blank"
+                  >
+                    {" "}
+                    View Portfolio
+                  </Link>
+                </button>
               )
             }
           </div>
@@ -1084,10 +1125,13 @@ const PortfolioForm = () => {
           done && (
             <button
               onClick={handleDownload}
-              className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
+              className="bg-white text-black hover:bg-indigo-700  font-bold py-2 px-4 rounded"
             >
               {" "}
-              Download Code
+              {
+                // [5]
+                loadingForUpdate ? "Loading..." : "Download Full Code"
+              }
             </button>
           )
         }

@@ -18,11 +18,12 @@ const HeaderHome = () => {
             <br />
             portfolios with PortfolioMaster
             <br />
-            <div className="py-2 mt-4 text-xl text-white bg-blue-700 rounded-lg hover:bg-blue-800">
-              <Link href="/dataform" className="ml-2 py-5 mt-4 text-xl ">
-                Make a portfolio now
-              </Link>
-            </div>
+            <Link
+              href="/dataform"
+              className="inline-block py-2 px-4 mt-4 text-xl text-white bg-blue-700 rounded-lg hover:bg-blue-800 transition-colors"
+            >
+              Make a portfolio now
+            </Link>
           </div>
         </div>
       </div>
