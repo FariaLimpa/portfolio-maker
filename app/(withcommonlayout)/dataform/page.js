@@ -343,7 +343,16 @@ const PortfolioForm = () => {
       [section]: prevState[section].filter((_, i) => i !== index),
     }));
   };
-
+  const copyLink = async () => {
+    const res = await fetch(
+      `https://portfoliomaker-backend.vercel.app/portfolio/${id}`
+    );
+    const data = await res.json();
+    navigator.clipboard.writeText(
+      `https://portfoliomaker.vercel.app/portfoliotemplate/${data.data._id}`
+    );
+    toast.success("Link copied to clipboard");
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -1100,10 +1109,14 @@ const PortfolioForm = () => {
           >
             {loading ? "Loading..." : "Submit"}
           </button>
-          <div>
-            {
-              // [3]
-              done && (
+        </div>
+      </form>
+      <div>
+        {
+          // [3]
+          done && (
+            <div className="max-w-3xl mx-auto p-6 bg-white gap-20 shadow-md rounded-md my-3 flex justify-center">
+              <div>
                 <button className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
                   <Link
                     href={`/portfoliotemplate/${id}`}
@@ -1114,11 +1127,20 @@ const PortfolioForm = () => {
                     View Portfolio
                   </Link>
                 </button>
-              )
-            }
-          </div>
-        </div>
-      </form>
+              </div>
+              <div>
+                <button
+                  onClick={() => copyLink(id)}
+                  className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
+                >
+                  {" "}
+                  Copy Link
+                </button>
+              </div>
+            </div>
+          )
+        }
+      </div>
       <div className="flex justify-center my-5">
         {
           // [4]
@@ -1136,6 +1158,7 @@ const PortfolioForm = () => {
           )
         }
       </div>
+      {/* copy link button */}
     </div>
   );
 };
