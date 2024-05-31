@@ -2,13 +2,13 @@
 import Link from "next/link";
 
 function Navbar({ data }) {
-  const personalData = data?.data?.personalData;
+  const personalData = data.data.personalData;
   return (
     <nav className="bg-transparent">
       <div className="flex items-center justify-between py-5">
         <div className="flex flex-shrink-0 items-center">
           <Link href="/" className=" text-[#16f2b3] text-3xl font-bold">
-            {personalData?.name}
+            {personalData.name}
           </Link>
         </div>
 

@@ -343,9 +343,13 @@ const PortfolioForm = () => {
       [section]: prevState[section].filter((_, i) => i !== index),
     }));
   };
-  const copyLink = async (id) => {
+  const copyLink = async () => {
+    const res = await fetch(
+      `https://portfoliomaker-backend.vercel.app/portfolio/${id}`
+    );
+    const data = await res.json();
     navigator.clipboard.writeText(
-      `https://portfoliomakerv1.vercel.app/portfoliotemplate/${id}`
+      `https://portfoliomaker.vercel.app/portfoliotemplate/${data.data._id}`
     );
     toast.success("Link copied to clipboard");
   };
@@ -373,9 +377,6 @@ const PortfolioForm = () => {
         onSubmit={handleSubmit}
         className="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-md"
       >
-        <h1 className="text-xl font-bold mb-6 text-center">
-          Add your portfolio data below to generate a portfolio template.
-        </h1>
         <h2 className="text-2xl font-bold mb-4">Contract Data</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
           <div>

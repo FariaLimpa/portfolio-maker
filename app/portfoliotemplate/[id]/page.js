@@ -35,9 +35,6 @@ const PortfolioMakerPage = async ({ params }) => {
   );
   const data = await dataJson.json();
 
-  if (!data) {
-    return <div>Loading...</div>;
-  }
   return (
     <div>
       <Navbar data={data} />
@@ -47,6 +44,7 @@ const PortfolioMakerPage = async ({ params }) => {
       <Skills data={data} />
       <Projects data={data} />
       <Education data={data} />
+      {/* <Blog blogs={blogs} /> */}
       <ContactSection data={data} />
       <Footer />
     </div>
