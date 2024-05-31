@@ -31,6 +31,9 @@ const PortfolioMakerPage = async ({ params }) => {
     `https://portfoliomaker-backend.vercel.app/portfolio/${params.id}`
   );
 
+  if (!data) {
+    return <div>Loading...</div>;
+  }
   return (
     <div>
       <Navbar data={data} />
@@ -40,7 +43,6 @@ const PortfolioMakerPage = async ({ params }) => {
       <Skills data={data} />
       <Projects data={data} />
       <Education data={data} />
-      {/* <Blog blogs={blogs} /> */}
       <ContactSection data={data} />
       <Footer />
     </div>
