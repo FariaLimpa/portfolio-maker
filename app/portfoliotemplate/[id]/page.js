@@ -27,9 +27,13 @@ async function getData() {
   return filtered;
 }
 const PortfolioMakerPage = async ({ params }) => {
-  const data = await fetchData(
-    `https://portfoliomaker-backend.vercel.app/portfolio/${params.id}`
+  const dataJson = await fetch(
+    `https://portfoliomaker-backend.vercel.app/portfolio/${params.id}`,
+    {
+      cache: "no-store",
+    }
   );
+  const data = await dataJson.json();
 
   if (!data) {
     return <div>Loading...</div>;
