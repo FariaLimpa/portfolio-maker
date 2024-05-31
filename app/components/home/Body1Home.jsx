@@ -30,11 +30,9 @@ const Body1Home = () => {
           setIsVisible(entry.isIntersecting);
         });
       },
-      { threshold: 0.1 } // Adjust the threshold value as needed
+      { threshold: 0.1 }
     );
-
     const currentObserver = observer.observe(componentRef.current);
-
     return () => {
       if (currentObserver) observer.unobserve(currentObserver);
     };
@@ -43,19 +41,23 @@ const Body1Home = () => {
   return (
     <div
       ref={componentRef}
-      className="shadow-2xl flex flex-col items-center justify-center py-12 bg-gradient-to-tl from-orange-300 to-pink-500 text-white rounded-lg "
+      className="shadow-2xl mt-10 flex flex-col items-center justify-center py-8 md:py-12 bg-gradient-to-tl from-orange-300 to-pink-500 text-white rounded-lg"
+      role="region"
+      aria-label="Total Portfolios Generated"
     >
-      <h2 className="text-4xl font-bold mb-6">Total Portfolios Generated</h2>
-      <div className="text-7xl font-extrabold mb-10">
+      <h2 className="text-2xl md:text-4xl font-bold mb-4 md:mb-6">
+        Total Portfolios Generated
+      </h2>
+      <div className="text-5xl md:text-7xl font-extrabold mb-6 md:mb-10">
         {isVisible ? <CountUp end={portfolioCount} duration={2.5} /> : 0}
       </div>
-      <p className="text-lg text-gray-200 mb-8 px-8 text-center">
+      <p className="text-base md:text-lg text-gray-200 mb-6 md:mb-8 px-4 md:px-8 text-center">
         Join the community of creators who have already built their portfolios
         with PortfolioMaster.
       </p>
       <Link
         href={"/dataform"}
-        className="bg-white text-purple-600 font-bold py-3 px-6 rounded-full transition-colors duration-300 hover:bg-purple-600 hover:text-white"
+        className="bg-white text-purple-600 font-bold py-2 md:py-3 px-4 md:px-6 rounded-full transition-colors duration-300 hover:bg-purple-600 hover:text-white"
       >
         Get Started
       </Link>

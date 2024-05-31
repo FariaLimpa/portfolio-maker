@@ -16,9 +16,8 @@ const layout = ({ children }) => {
           <main className="min-h-screen relative mx-auto px-6 sm:px-12 lg:max-w-[70rem] xl:max-w-[76rem] 2xl:max-w-[92rem] text-black ">
             <NavbarHome></NavbarHome>
             {children}
-
-            <FooterHome></FooterHome>
           </main>
+          <FooterHome></FooterHome>
         </div>
         <ToastContainer />
       </body>
