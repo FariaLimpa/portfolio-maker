@@ -7,7 +7,10 @@ import "../globals.css";
 import { Bounce, ToastContainer } from "react-toastify";
 
 const inter = Inter({ subsets: ["latin"] });
-
+export const metadata = {
+  title: "Portfolio Maker | Home",
+  description: "Join the community of creators who have already built their portfolios with PortfolioMaster.",
+};
 const layout = ({ children }) => {
   return (
     <html lang="en">
