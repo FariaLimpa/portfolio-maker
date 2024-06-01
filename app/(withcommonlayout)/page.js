@@ -9,8 +9,8 @@ export default async function Home() {
     <>
       <HeaderHome></HeaderHome>
       <Body1Home></Body1Home>
-      <Body2Home></Body2Home>
       <TechStackSection></TechStackSection>
+      <Body2Home></Body2Home>
     </>
   );
 }
