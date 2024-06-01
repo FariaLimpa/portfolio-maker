@@ -5,22 +5,27 @@ import CountUp from "react-countup";
 
 const Body1Home = () => {
   const [portfolioCount, setPortfolioCount] = useState(0);
+  const [latestPortfolios, setLatestPortfolios] = useState([]);
   const [isVisible, setIsVisible] = useState(false);
   const componentRef = useRef(null);
 
   useEffect(() => {
-    const fetchPortfolioCount = async () => {
+    const fetchPortfolioData = async () => {
       try {
         const response = await fetch(
           "https://portfoliomaker-backend.vercel.app/portfolio"
         );
         const data = await response.json();
         setPortfolioCount(data.data.length);
+        if (data.data.length > 0) {
+          const latest = data.data.slice(-3).reverse(); // Get the last 3 portfolios and reverse the order
+          setLatestPortfolios(latest);
+        }
       } catch (error) {
-        console.error("Error fetching portfolio count:", error);
+        console.error("Error fetching portfolio data:", error);
       }
     };
-    fetchPortfolioCount();
+    fetchPortfolioData();
   }, []);
 
   useEffect(() => {
@@ -61,6 +66,34 @@ const Body1Home = () => {
       >
         Get Started
       </Link>
+      {latestPortfolios.length > 0 && (
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+          <h3 className="text-xl md:text-2xl font-bold text-center mb-4 col-span-full">
+            Latest Portfolios
+          </h3>
+          {latestPortfolios.map((portfolio, index) => (
+            <div
+              key={index}
+              className="bg-white bg-opacity-20 p-6 rounded-lg shadow-md"
+            >
+              <div className="flex flex-col items-center">
+                <p className="text-base md:text-lg font-semibold mb-2">
+                  Name:{" "}
+                  <span className="font-normal">
+                    {portfolio.personalData.name}
+                  </span>
+                </p>
+                <p className="text-base md:text-lg font-semibold">
+                  Created At:{" "}
+                  <span className="font-normal">
+                    {new Date(portfolio.createdAt).toLocaleString()}
+                  </span>
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
