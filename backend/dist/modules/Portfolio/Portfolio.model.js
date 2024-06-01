@@ -56,5 +56,5 @@ const PortfolioSchema = new mongoose_1.Schema({
     personalData: { type: personalDataSchema, required: true },
     projectData: { type: [projectDataSchema], required: true },
     skillData: { type: [String], required: true },
-});
+}, { timestamps: true });
 exports.Portfolio = (0, mongoose_1.model)('Portfolio', PortfolioSchema);

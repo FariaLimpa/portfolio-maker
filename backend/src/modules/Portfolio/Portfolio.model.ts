@@ -60,13 +60,16 @@ const projectDataSchema = new Schema<projectData>({
   image: { type: String },
 })
 
-const PortfolioSchema = new Schema<TPortfolioData>({
-  contractData: { type: contractDataSchema, required: true },
-  educationData: { type: [educationDataSchema], required: true },
-  experienceData: { type: [experienceDataSchema] },
-  personalData: { type: personalDataSchema, required: true },
-  projectData: { type: [projectDataSchema], required: true },
-  skillData: { type: [String], required: true },
-})
+const PortfolioSchema = new Schema<TPortfolioData>(
+  {
+    contractData: { type: contractDataSchema, required: true },
+    educationData: { type: [educationDataSchema], required: true },
+    experienceData: { type: [experienceDataSchema] },
+    personalData: { type: personalDataSchema, required: true },
+    projectData: { type: [projectDataSchema], required: true },
+    skillData: { type: [String], required: true },
+  },
+  { timestamps: true },
+)
 
 export const Portfolio = model<TPortfolioData>('Portfolio', PortfolioSchema)
