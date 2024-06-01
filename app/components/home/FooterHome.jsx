@@ -3,7 +3,7 @@ import React from "react";
 
 const FooterHome = () => {
   return (
-    <footer className="bg-gray-800 py-4 text-center text-white mt-10">
+    <footer className="bg-gray-800 py-10 text-center text-white mt-10">
       <div className="container mx-auto">
         <p>
           &copy; {new Date().getFullYear()} portfolioMaker. All rights reserved.
@@ -12,14 +12,16 @@ const FooterHome = () => {
           Made by{" "}
           <Link
             className="text-blue-400 hover:underline"
-            href="https://example.com/kolin"
+            href="https://github.com/kolinabir"
+            target="_blank"
           >
             Kolin
           </Link>{" "}
           &{" "}
           <Link
             className="text-blue-400 hover:underline"
-            href="https://example.com/limpa"
+            href="https://github.com/FariaLimpa"
+            target="_blank"
           >
             Limpa
           </Link>
