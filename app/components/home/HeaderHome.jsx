@@ -26,7 +26,7 @@ const HeaderHome = () => {
         </div>
       </div>
       <div className="my-10 mb-20 md:mt-0 md:h-[45rem] w-full flex items-center justify-center">
-        <PinContainer title="/portfolioMaster.com" href="https://twitter.com">
+        <PinContainer title="portfoliomakerv1.vercel.app" href="https://portfoliomakerv1.vercel.app">
           <div className="flex flex-col p-4 tracking-tight text-slate-100/50 sm:w-[20rem] sm:h-[20rem]">
             <h3 className="max-w-xs pb-2 m-0 font-bold text-base text-slate-100">
               Portfolio Master
