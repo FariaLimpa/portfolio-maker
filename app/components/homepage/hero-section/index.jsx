@@ -11,6 +11,7 @@ import { SiLeetcode } from "react-icons/si";
 
 const HeroSection = async ({ data }) => {
   const personalData = data.data.personalData;
+  const skills = data.data.skillData;
   {
     return (
       <section className="relative flex flex-col items-center justify-between py-4 lg:py-12">
@@ -177,7 +178,7 @@ const HeroSection = async ({ data }) => {
                   <span className="ml-12 lg:ml-24 text-cyan-400">this.</span>
                   <span className="mr-2 text-white">skills.length</span>
                   <span className="mr-2 text-amber-300">&gt;=</span>
-                  <span className="text-orange-400">5</span>
+                  <span className="text-orange-400">{skills.length}</span>
                 </div>
                 <div>
                   <span className="ml-8 lg:ml-16 mr-2 text-gray-400">{`);`}</span>

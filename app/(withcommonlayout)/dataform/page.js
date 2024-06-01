@@ -3,11 +3,102 @@ import { postData } from "@/utils/api/fetchData";
 import { redirect } from "next/dist/server/api-utils";
 import Link from "next/link";
 import React, { useState } from "react";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
 const PortfolioForm = () => {
   const [loading, setLoading] = useState(false);
   const [id, setId] = useState(null); // [1]
   const [done, setDone] = useState(false);
+  const [contactUpdated, setContactUpdated] = useState(false); // [3]
+  const [educationUpdated, setEducationUpdated] = useState(false);
+  const [experienceUpdated, setExperienceUpdated] = useState(false);
+  const [personalUpdated, setPersonalUpdated] = useState(false);
+  const [projectsUpdated, setProjectsUpdated] = useState(false);
+  const [skillsUpdated, setSkillsUpdated] = useState(false);
+  const [loadingForUpdate, setLoadingForUpdate] = useState(false); // [5]
+
+  const availableSkills = [
+    "HTML",
+    "CSS",
+    "JS",
+    "React",
+    "Next JS",
+    "Nuxt JS",
+    "Node JS",
+    "Vue",
+    "Angular",
+    "Docker",
+    "Photoshop",
+    "Illustrator",
+    "Svelte",
+    "GCP",
+    "Azure",
+    "Fastify",
+    "Haxe",
+    "Ionic",
+    "Markdown",
+    "Microsoft Office",
+    "Picsart",
+    "Sketch",
+    "Unity",
+    "WolframAlpha",
+    "Adobe XD",
+    "After Effects",
+    "Bootstrap",
+    "Bulma",
+    "CapacitorJs",
+    "Coffeescript",
+    "MemSQL",
+    "C",
+    "C++",
+    "C#",
+    "Python",
+    "Java",
+    "Julia",
+    "Matlab",
+    "Swift",
+    "Ruby",
+    "Kotlin",
+    "Go",
+    "PHP",
+    "Flutter",
+    "Dart",
+    "Typescript",
+    "Swift",
+    "Git",
+    "Figma",
+    "Canva",
+    "Ubuntu",
+    "Bootstrap",
+    "MongoDB",
+    "Tailwind",
+    "ViteJS",
+    "VuetifyJS",
+    "MySQL",
+    "PostgreSQL",
+    "AWS",
+    "Firebase",
+    "Blender",
+    "Premiere Pro",
+    "Adobe Audition",
+    "Deno",
+    "Django",
+    "Gimp",
+    "Graphql",
+    "Lightroom",
+    "MaterialUI",
+    "Nginx",
+    "Numpy",
+    "OpenCV",
+    "Pytorch",
+    "Selenium",
+    "Strapi",
+    "Tensorflow",
+    "Webex",
+    "Wordpress",
+  ];
+
   const [formData, setFormData] = useState({
     contractData: {
       email: "john.doe@example.com",
@@ -71,7 +162,8 @@ const PortfolioForm = () => {
         role: "Full-Stack Developer",
         code: "https://github.com/johndoe/ecommerce-website",
         demo: "https://ecommerce-website.vercel.app",
-        image: "https://johndoe.com/ecommerce-website.png",
+        image:
+          "https://i0.wp.com/www.projectsmind.com/wp-content/uploads/2021/05/What-is-project.png?fit=1200%2C675&ssl=1",
       },
       {
         name: "Weather App",
@@ -81,54 +173,140 @@ const PortfolioForm = () => {
         role: "Front-End Developer",
         code: "https://github.com/johndoe/weather-app",
         demo: "https://weather-app.vercel.app",
-        image: "https://johndoe.com/weather-app.png",
+        image:
+          "https://9to5mac.com/wp-content/uploads/sites/6/2023/04/Apple-Weather-app.jpg?quality=82&strip=all&w=1024",
       },
     ],
-    skillData: [
-      "React",
-      "Node.js",
-      "MongoDB",
-      "Express",
-      "Tailwind CSS",
-      "Git",
-      "JavaScript",
-      "HTML",
-      "CSS",
-    ],
+    skillData: ["React"],
   });
-  function convertContactData(personalData) {
-    return `export const contactsData = {
-    email: '${personalData.email}',
-    phone: '${personalData.phone}',
-    address: '${personalData.address}',
-    github: '${personalData.github}',
-    facebook: '${personalData.facebook}',
-    linkedIn: '${personalData.linkedIn}', // Note the change from 'linkedin' to 'linkedIn'
-    twitter: '${personalData.twitter}',
-    stackOverflow: '${personalData.stackOverflow}',
-    devUsername: '${personalData.devUsername}'
-  }`;
-  }
+  // function convertContactData(personalData) {
+  //   return `export const contactsData = {
+  //   email: '${personalData.email}',
+  //   phone: '${personalData.phone}',
+  //   address: '${personalData.address}',
+  //   github: '${personalData.github}',
+  //   facebook: '${personalData.facebook}',
+  //   linkedIn: '${personalData.linkedIn}', // Note the change from 'linkedin' to 'linkedIn'
+  //   twitter: '${personalData.twitter}',
+  //   stackOverflow: '${personalData.stackOverflow}',
+  //   devUsername: '${personalData.devUsername}'
+  // }`;
+  // }
 
   const handleDownload = async () => {
-    const personalData = convertContactData(formData.personalData);
-    const jsonData = JSON.stringify({ content: personalData }, null, 4);
-    console.log(jsonData);
-    const response = await fetch(`http://localhost:3003/update-file-contact`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: jsonData,
-    });
-    if (response.status === 200) {
-      alert("File updated successfully");
+    const personalData = formData.personalData;
+    setLoadingForUpdate(true);
+    const updateContact = await fetch(
+      `https://git-api-portfoliomaker.vercel.app/update-file-contact`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ personalData }),
+      }
+    );
+    if (updateContact.status === 200) {
+      setContactUpdated(true); // [4]
+      toast.success("Contact data updated successfully");
+    } else {
+      setLoadingForUpdate(false);
+      toast.error("Failed to update contact data");
+    }
+    const updateEducation = await fetch(
+      `https://git-api-portfoliomaker.vercel.app/update-file-education`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ educationData: formData.educationData }),
+      }
+    );
+    if (updateEducation.status === 200) {
+      setEducationUpdated(true);
+      toast.success("Education data updated successfully");
+    }
+    const updateExperience = await fetch(
+      `https://git-api-portfoliomaker.vercel.app/update-file-experience`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ experienceData: formData.experienceData }),
+      }
+    );
+    if (updateExperience.status === 200) {
+      setExperienceUpdated(true);
+      toast.success("Experience data updated successfully");
+    }
+    const updatePersonal = await fetch(
+      `https://git-api-portfoliomaker.vercel.app/update-file-personal`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ personalData: formData.personalData }),
+      }
+    );
+    if (updatePersonal.status === 200) {
+      setPersonalUpdated(true);
+      toast.success("Personal data updated successfully");
+    }
+    const updateProjects = await fetch(
+      `https://git-api-portfoliomaker.vercel.app/update-file-projects`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ projectData: formData.projectData }),
+      }
+    );
+    if (updateProjects.status === 200) {
+      setProjectsUpdated(true);
+      toast.success("Projects data updated successfully");
+    }
+    const updateSkills = await fetch(
+      `https://git-api-portfoliomaker.vercel.app/update-file-skills`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ skillData: formData.skillData }),
+      }
+    );
+
+    if (updateSkills.status === 200) {
+      setSkillsUpdated(true);
+      toast.success("Skills data updated successfully");
+    }
+    if (
+      contactUpdated &&
+      educationUpdated &&
+      experienceUpdated &&
+      personalUpdated &&
+      projectsUpdated &&
+      skillsUpdated
+    ) {
+      setLoadingForUpdate(false);
       window.open(
-        "https://github.com/kolinabir/developer-portfolio-main/archive/refs/heads/main.zip",
-        "_blank"
+        "https://github.com/kolinabir/developer-portfolio-main/archive/refs/heads/main.zip"
       );
     } else {
-      alert("Failed to update file");
+      setLoadingForUpdate(false);
+      toast.error("Failed to update data");
+      console.log({
+        contactUpdated,
+        educationUpdated,
+        experienceUpdated,
+        personalUpdated,
+        projectsUpdated,
+        skillsUpdated,
+      });
     }
   };
 
@@ -140,9 +318,9 @@ const PortfolioForm = () => {
         : { ...prevState[section] };
 
       if (Array.isArray(prevState[section])) {
-        updatedSection[index][field] = value;
+        updatedSection[index] = value; // Update value directly at the index
       } else {
-        updatedSection[field] = value;
+        updatedSection[field] = value; // This part seems fine since it's not within an array
       }
 
       return { ...prevState, [section]: updatedSection };
@@ -165,18 +343,26 @@ const PortfolioForm = () => {
       [section]: prevState[section].filter((_, i) => i !== index),
     }));
   };
-
+  const copyLink = async (id) => {
+    navigator.clipboard.writeText(
+      `https://portfoliomakerv1.vercel.app/portfoliotemplate/${id}`
+    );
+    toast.success("Link copied to clipboard");
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const post = await postData("http://localhost:5000/portfolio", formData);
+    const post = await postData(
+      "https://portfoliomaker-backend.vercel.app/portfolio",
+      formData
+    );
 
     if (post.success) {
-      alert("Data submitted successfully");
+      toast.success("Data submitted successfully");
       setId(post.data._id); // [2]
       setDone(true);
     } else {
-      alert("Failed to submit data");
+      toast.error("Failed to submit data");
     }
     setLoading(false);
   };
@@ -187,6 +373,10 @@ const PortfolioForm = () => {
         onSubmit={handleSubmit}
         className="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-md"
       >
+        <h1 className="text-md font-semibold mb-6 text-center">
+          Add your data to create a portfolio template. Once you submit the
+          form, you can download,view your Portfolio from the link below.
+        </h1>
         <h2 className="text-2xl font-bold mb-4">Contract Data</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
           <div>
@@ -880,14 +1070,20 @@ const PortfolioForm = () => {
             >
               Skill *
             </label>
-            <input
+            <select
               id={`skill-${index}`}
-              type="text"
               value={skill}
               onChange={(e) => handleChange(e, "skillData", index, "")}
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500"
               required
-            />
+            >
+              <option value="">Select a skill</option>
+              {availableSkills.map((availableSkill, i) => (
+                <option key={i} value={availableSkill}>
+                  {availableSkill}
+                </option>
+              ))}
+            </select>
             <button
               type="button"
               onClick={() => handleRemoveItem("skillData", index)}
@@ -897,6 +1093,7 @@ const PortfolioForm = () => {
             </button>
           </div>
         ))}
+
         <button
           type="button"
           onClick={() => handleAddItem("skillData")}
@@ -905,43 +1102,63 @@ const PortfolioForm = () => {
           Add Skill
         </button>
         <br />
-        <div className="gap-20 flex justify-start">
+        <div className="gap-20 flex justify-center">
           <button
             type="submit"
             className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
           >
             {loading ? "Loading..." : "Submit"}
           </button>
-          <div>
-            {
-              // [3]
-              done && (
-                <Link
-                  className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
-                  href={`/portfoliotemplate/${id}`}
-                >
-                  {" "}
-                  View Portfolio
-                </Link>
-              )
-            }
-          </div>
         </div>
       </form>
+      <div>
+        {
+          // [3]
+          done && (
+            <div className="max-w-3xl mx-auto p-6 bg-white gap-20 shadow-md rounded-md my-3 flex justify-center">
+              <div>
+                <button className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
+                  <Link
+                    href={`/portfoliotemplate/${id}`}
+                    // open new tab
+                    target="_blank"
+                  >
+                    {" "}
+                    View Portfolio
+                  </Link>
+                </button>
+              </div>
+              <div>
+                <button
+                  onClick={() => copyLink(id)}
+                  className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
+                >
+                  {" "}
+                  Copy Link
+                </button>
+              </div>
+            </div>
+          )
+        }
+      </div>
       <div className="flex justify-center my-5">
         {
           // [4]
           done && (
             <button
               onClick={handleDownload}
-              className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
+              className="bg-white text-black hover:bg-indigo-700  font-bold py-2 px-4 rounded"
             >
               {" "}
-              Download Code
+              {
+                // [5]
+                loadingForUpdate ? "Loading..." : "Download Full Code"
+              }
             </button>
           )
         }
       </div>
+      {/* copy link button */}
     </div>
   );
 };

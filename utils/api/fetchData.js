@@ -10,13 +10,16 @@ export const fetchData = async (url) => {
 
 export const postData = async (url, data) => {
   try {
-    const response = await fetch("http://localhost:5000/portfolio", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+    const response = await fetch(
+      "https://portfoliomaker-backend.vercel.app/portfolio",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
     return response.json();
   } catch (error) {
     console.error(error);

@@ -1,6 +1,5 @@
 import { fetchData } from "@/utils/api/fetchData";
 import AboutSection from "../../components/homepage/about";
-import Blog from "../../components/homepage/blog";
 import ContactSection from "../../components/homepage/contact";
 import Education from "../../components/homepage/education";
 import Experience from "../../components/homepage/experience";
@@ -28,7 +27,13 @@ async function getData() {
   return filtered;
 }
 const PortfolioMakerPage = async ({ params }) => {
-  const data = await fetchData(`http://localhost:5000/portfolio/${params.id}`);
+  const dataJson = await fetch(
+    `https://portfoliomaker-backend.vercel.app/portfolio/${params.id}`,
+    {
+      cache: "no-store",
+    }
+  );
+  const data = await dataJson.json();
 
   return (
     <div>

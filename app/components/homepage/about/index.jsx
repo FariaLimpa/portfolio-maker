@@ -24,6 +24,7 @@ const AboutSection = async ({ data }) => {
         <div className="flex justify-center order-1 lg:order-2">
           <Image
             src={
+              personalData?.profile ||
               "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?cs=srgb&dl=pexels-simon-robben-55958-614810.jpg&fm=jpg"
             }
             width={280}
